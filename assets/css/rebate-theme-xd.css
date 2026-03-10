@@ -83,41 +83,49 @@
 
 
 
-/* 1. 保留你的核心方案：让 tooltip 能溢出显示 */
+/* 1. 核心保留：必须开启，让 Tooltip 溢出显示 */
 .rebate-slides {
     overflow: visible !important;
-    position: relative !important;
-}
-.rebate-panel,
-.rebate-system {
-    overflow: visible !important;
-    position: relative !important;
+    position: relative !important; /* 建立定位上下文 */
 }
 
-/* 2. 关键修复：用绝对定位 + 透明度控制隐藏，不破坏布局和切换 */
+.rebate-panel, .rebate-system {
+    overflow: visible !important;
+}
+
+/* 2. 关键修复：控制 Tab 显隐，避免堆叠 */
+/* 默认所有面板绝对定位，隐藏在文档流外 */
 .rebate-slide {
     position: absolute !important;
     top: 0 !important;
     left: 0 !important;
     width: 100% !important;
+    /* 这里不要用 display: none，否则 tooltip 可能失效，改用透明隐藏 */
     opacity: 0 !important;
-    visibility: hidden !important;
-    transition: opacity 0.2s ease !important;
-}
-.rebate-slide.active {
-    position: relative !important;
-    opacity: 1 !important;
-    visibility: visible !important;
+    pointer-events: none !important; /* 非激活时不响应鼠标 */
 }
 
-/* 3. 加固 tooltip 层级，避免被标题栏/分隔线遮挡 */
+/* 只有激活状态的面板，才恢复正常流并显示 */
+.rebate-slide.active {
+    position: relative !important; /* 恢复正常布局，不影响下方按钮 */
+    opacity: 1 !important;
+    pointer-events: auto !important; /* 恢复交互 */
+}
+
+/* 3. 确保 Tooltip 层级最高，不被遮挡 */
 .channel-item {
     position: relative !important;
-    z-index: 1 !important;
+    z-index: 10;
 }
+
 .channel-item:hover::before,
 .channel-item:hover::after {
-    z-index: 99999 !important;
-    position: absolute !important;
-    pointer-events: none !important;
+    z-index: 9999 !important; /* 确保层级最高 */
+    position: absolute !important; /* 脱离文档流，不影响布局 */
+}
+
+/* 4. 额外修复：确保上方标题栏层级低于 Tooltip */
+.rebate-header {
+    position: relative !important;
+    z-index: 100 !important;
 }
