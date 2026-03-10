@@ -43,8 +43,17 @@
     white-space: pre-line;
     min-width: 170px;
     max-width: 220px;
-    z-index: 999 !important;
+    z-index: 999;
     pointer-events: none;
     margin-bottom: 10px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+
+
+
+/* 确保tooltip的箭头和提示框都在最上层 */
+.channel-item:hover::before,
+.channel-item:hover::after {
+    z-index: 9999 !important;
 }
