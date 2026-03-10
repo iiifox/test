@@ -52,18 +52,22 @@
 
 
 
-/* 确保tooltip能溢出显示 */
-/* .rebate-panel {
+/* 只让通道列表容器允许溢出，避免全局布局错乱 */
+.rebate-group .channel-list {
     overflow: visible !important;
-} */
-.rebate-slide {
-    overflow: visible !important;
+    position: relative; /* 建立定位上下文，让 tooltip 相对此容器定位 */
 }
-/* .rebate-system {
-    overflow: visible !important;
-} */
-/* 确保tooltip的箭头和提示框都在最上层 */
+
+/* 确保 tooltip 层级高于标题栏 */
 .channel-item:hover::before,
 .channel-item:hover::after {
     z-index: 9999 !important;
+    position: absolute; /* 确保 tooltip 脱离文档流，不影响布局 */
+}
+
+/* 外层容器保持裁剪，防止整体布局溢出 */
+.rebate-panel,
+.rebate-slides,
+.rebate-system {
+    overflow: hidden !important;
 }
