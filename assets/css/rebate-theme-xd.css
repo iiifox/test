@@ -88,26 +88,34 @@
     overflow: visible !important;
 }
 
-/* 仅补充以下代码，解决面板重叠问题 */
+/* 适配动态渲染的核心逻辑：自动匹配active Tab */
+/* 1. 默认隐藏所有面板 */
 .rebate-slide {
-    /* 让非激活面板视觉隐藏，但保留DOM结构，不影响tooltip和切换 */
-    height: 0 !important;
+    display: none !important;
     visibility: hidden !important;
-    pointer-events: none !important;
-}
-.rebate-slide.active {
-    /* 激活面板恢复正常高度和可见性 */
-    height: auto !important;
-    visibility: visible !important;
-    pointer-events: auto !important;
 }
 
-/* 可选加固：确保tooltip不被标题栏遮挡（如果需要） */
+/* 2. 自动显示与active Tab的data-time匹配的面板 */
+/* 原理：通过JS同步给active的rebate-slide加[data-active="true"]，CSS只显示这个面板 */
+.rebate-slide[data-active="true"] {
+    display: block !important;
+    visibility: visible !important;
+}
+
+/* 3. 确保Tooltip不被遮挡（动态渲染下也生效） */
 .channel-item {
     position: relative !important;
+    z-index: 1;
 }
 .channel-item:hover::before,
 .channel-item:hover::after {
     z-index: 9999 !important;
     position: absolute !important;
+    pointer-events: none !important;
+}
+
+/* 可选：防止动态渲染时布局跳动 */
+.rebate-slides {
+    position: relative !important;
+    min-height: 300px !important; /* 按你面板实际高度调整 */
 }
