@@ -52,18 +52,66 @@
 
 
 
-/* 确保tooltip能溢出显示 */
-/* .rebate-panel {
-    overflow: visible !important;
-} */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* 1. 保留你的核心方案：让 tooltip 能溢出显示 */
 .rebate-slides {
     overflow: visible !important;
+    position: relative !important;
 }
-/* .rebate-system {
+
+.rebate-panel,
+.rebate-system {
     overflow: visible !important;
-} */
-/* 确保tooltip的箭头和提示框都在最上层 */
-/* .channel-item:hover::before,
+    position: relative !important;
+}
+
+/* 2. 强制隐藏非激活态的时间面板，解决重叠问题 */
+.rebate-slide:not(.active) {
+    display: none !important;
+}
+
+/* 3. 确保当前激活的时间面板正常显示 */
+.rebate-slide.active {
+    display: block !important;
+}
+
+/* 4. 加固 tooltip 层级，避免被遮挡 */
+.channel-item {
+    position: relative !important;
+}
+
+.channel-item:hover::before,
 .channel-item:hover::after {
-    z-index: 9999 !important;
-} */
+    z-index: 99999 !important;
+    position: absolute !important;
+}
