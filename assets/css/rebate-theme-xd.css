@@ -52,6 +52,16 @@
 
 
 
+/* 确保tooltip能溢出显示 */
+.rebate-panel {
+    overflow: visible !important;
+}
+.rebate-slides {
+    overflow: visible !important;
+}
+.rebate-system {
+    overflow: visible !important;
+}
 /* 确保tooltip的箭头和提示框都在最上层 */
 .channel-item:hover::before,
 .channel-item:hover::after {
