@@ -88,13 +88,6 @@
     overflow: visible !important;
 }
 
-/* 适配动态渲染的核心逻辑：自动匹配active Tab */
-/* 1. 默认隐藏所有面板 */
-.rebate-slide {
-    display: none !important;
-    visibility: hidden !important;
-}
-
 /* 2. 自动显示与active Tab的data-time匹配的面板 */
 /* 原理：通过JS同步给active的rebate-slide加[data-active="true"]，CSS只显示这个面板 */
 .rebate-slide[data-active="true"] {
@@ -112,10 +105,4 @@
     z-index: 9999 !important;
     position: absolute !important;
     pointer-events: none !important;
-}
-
-/* 可选：防止动态渲染时布局跳动 */
-.rebate-slides {
-    position: relative !important;
-    min-height: 300px !important; /* 按你面板实际高度调整 */
 }
