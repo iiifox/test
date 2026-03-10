@@ -83,16 +83,19 @@
 
 
 
-/* 你的核心样式（保留） */
+/* 你的核心样式（必须保留） */
 .rebate-slides {
     overflow: visible !important;
-    /* 仅补充这一行：强制横向滚动容器，避免面板纵向堆叠 */
-    display: flex !important;
-    flex-wrap: nowrap !important;
+    /* 关键：强制容器只显示当前可视区域，隐藏溢出的其他面板 */
+    white-space: nowrap !important;
+    overflow-x: auto !important; /* 保留横向滚动能力 */
+    overflow-y: visible !important; /* 只让y轴溢出，保证tooltip显示 */
 }
 
-/* 配套：确保每个slide横向排列，不换行 */
 .rebate-slide {
-    flex: 0 0 auto !important;
+    /* 保证每个面板占满容器宽度，横向排列 */
+    display: inline-block !important;
     width: 100% !important;
+    white-space: normal !important; /* 恢复内部正常换行 */
+    vertical-align: top !important;
 }
