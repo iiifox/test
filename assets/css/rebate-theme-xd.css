@@ -81,74 +81,34 @@
 
 
 
-
-/* 1. 恢复rebate-slides原始滚动逻辑（删掉你之前加的overflow: visible） */
+/* 你的核心样式（必须保留） */
 .rebate-slides {
-    overflow-x: auto !important;  /* 保留横向滚动 */
-    overflow-y: hidden !important; /* 纵向不溢出，避免布局乱 */
-    white-space: nowrap !important; /* 面板横向排列 */
+    overflow: visible !important;
+    /* 关键：只允许纵向溢出，横向保持滚动裁剪 */
+    overflow-x: hidden !important;
+    overflow-y: visible !important;
+    /* 恢复横向滚动容器特性 */
+    display: flex !important;
+    flex-wrap: nowrap !important;
 }
 
 .rebate-slide {
-    display: inline-block !important;
+    /* 每个面板占满容器宽度，横向排列 */
+    flex: 0 0 100% !important;
     width: 100% !important;
-    white-space: normal !important;
-    vertical-align: top !important;
+    /* 隐藏超出可视区域的面板，避免堆叠 */
+    overflow: hidden !important;
 }
 
-/* 2. 核心：让tooltip脱离容器，悬浮在页面最顶层（关键中的关键） */
+/* 加固 tooltip 层级，确保不被标题栏遮挡 */
 .channel-item {
     position: relative !important;
+    z-index: 1 !important;
 }
 
-/* 用子元素替代伪元素（伪元素无法脱离容器，子元素可以） */
-.channel-item::before,
-.channel-item::after {
-    display: none !important; /* 隐藏原来的tooltip伪元素 */
-}
-
-/* 新增真实tooltip元素（通过CSS生成，无需改HTML/JS） */
-.channel-item[data-tooltip] {
-    /* 标记有tooltip的元素 */
-}
-.channel-item[data-tooltip]:hover {
-    /* 触发tooltip显示 */
-}
-
-/* 真实tooltip容器（fixed定位，脱离所有父容器） */
-.channel-item[data-tooltip]:hover > .tooltip-float {
-    display: block !important;
-}
-
-/* 提前生成tooltip元素（通过CSS content+attr，零JS改动） */
-.channel-item[data-tooltip]::after {
-    content: attr(data-tooltip);
-    position: fixed !important; /* 脱离所有容器，直接悬浮在页面 */
-    z-index: 999999 !important; /* 最高层级，覆盖所有元素 */
-    top: calc(100vh - 300px) !important; /* 固定在页面上方，避开标题栏 */
-    left: 50% !important;
-    transform: translateX(-50%) !important;
-    background: #333 !important;
-    color: #fff !important;
-    padding: 4px 8px !important;
-    border-radius: 4px !important;
-    font-size: 12px !important;
-    white-space: nowrap !important;
+.channel-item:hover::before,
+.channel-item:hover::after {
+    z-index: 99999 !important;
+    position: absolute !important;
     pointer-events: none !important;
-    display: block !important;
-}
-
-/* 可选：加tooltip箭头 */
-.channel-item[data-tooltip]::before {
-    content: '';
-    position: fixed !important;
-    z-index: 999999 !important;
-    top: calc(100vh - 292px) !important; /* 箭头位置匹配tooltip */
-    left: 50% !important;
-    transform: translateX(-50%) rotate(45deg) !important;
-    width: 8px !important;
-    height: 8px !important;
-    background: #333 !important;
-    pointer-events: none !important;
-    display: block !important;
 }
