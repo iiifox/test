@@ -11,40 +11,42 @@
 #xd-panel .channel-item[data-tooltip]:not([data-tooltip=""]) {
     position: relative;
     cursor: help;
+    /* 给元素加右边距，避免tooltip贴太近 */
+    padding-right: 10px;
 }
 
-/* 小箭头 */
+/* 小箭头（改为向右指向） */
 #xd-panel .channel-item[data-tooltip]:not([data-tooltip=""]):hover::before {
     content: '';
     position: absolute;
-    bottom: 100%;
-    left: 50%;
-    transform: translateX(-50%);
+    top: 50%; /* 垂直居中 */
+    left: 100%; /* 元素右侧 */
+    transform: translateY(-50%);
     border-width: 8px;
     border-style: solid;
-    border-color: rgba(60, 141, 188, 0.95) transparent transparent transparent;
-    margin-bottom: -8px;
+    /* 箭头指向左（朝向元素） */
+    border-color: transparent rgba(60, 141, 188, 0.95) transparent transparent;
+    margin-left: -8px; /* 箭头和提示框衔接 */
 }
 
-/* 提示框 */
+/* 提示框（向右显示，单行无换行） */
 #xd-panel .channel-item[data-tooltip]:not([data-tooltip=""]):hover::after {
     content: attr(data-tooltip);
     position: absolute;
-    bottom: 100%;
-    left: 50%;
-    transform: translateX(-50%);
+    top: 50%; /* 垂直居中 */
+    left: calc(100% + 8px); /* 元素右侧+箭头宽度 */
+    transform: translateY(-50%);
     background: rgba(60, 141, 188, 0.95);
     color: white;
-    padding: 12px;
+    padding: 8px 12px;
     border-radius: 6px;
     font-size: 0.9rem;
     line-height: 1.5;
     text-align: left;
-    white-space: pre-line;
-    min-width: 170px;
-    max-width: 220px;
-    z-index: 999;
+    white-space: nowrap !important; /* 强制单行，取消换行 */
+    min-width: auto; /* 取消最小宽度，自适应内容 */
+    max-width: none; /* 取消最大宽度限制 */
+    z-index: 9999; /* 提高层级，避免被其他元素遮挡 */
     pointer-events: none;
-    margin-bottom: 10px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
